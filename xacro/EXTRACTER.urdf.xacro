@@ -1,0 +1,607 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="extracter">
+
+<!-- Material -->
+<material name="EX_GRAY">
+  <color rgba="0.223 0.211 0.198 1" />
+</material>
+<material name="EX_BLACK">
+  <color rgba="0.2 0.2 0.2 1" />
+</material>
+<material name="EX_RED">
+  <color rgba="0.4 0 0 1" />
+</material>
+<material name="EX_DARKGREEN">
+  <color rgba="0 0.4 0 1" />
+</material>
+<material name="EX_DARKBLUE">
+  <color rgba="0 0 0.4 1" />
+</material>
+<material name="EX_WHITE">
+  <color rgba="0.9 0.9 0.9 1" />
+</material>
+
+<!-- Joint EX_ARM1 -->
+  <joint name="EX_ARM1" type="fixed">
+    <origin xyz="0.6 0.3 0" rpy="0 ${M_PI} ${M_PI/2}" />
+    <parent link="MANIARM" />
+    <child link="EX_ARM1" />
+  </joint>
+
+  <!-- Link EX_ARM1 -->
+  <link name="EX_ARM1">
+    <visual>
+      <geometry>
+        <cylinder radius="0.08" length="1.5" />
+      </geometry>
+      <material name="EX_BLACK" />
+      <origin xyz="0 0.15 -0.3" rpy="${M_PI/2} 0 0" />
+    </visual>
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.28" />
+      </geometry>
+      <material name="EX_BLACK" />
+      <origin xyz="0 0.8 -0.16" rpy="0 0 0" />
+    </visual>
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.28" />
+      </geometry>
+      <material name="EX_BLACK" />
+      <origin xyz="0 0.6 -0.16" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="10.97" />
+      <inertia ixx="0.85" ixy="0.0" ixz="0.0"
+               iyy="0.85" iyz="0.0"
+               izz="0.062216" />
+    </inertial>
+  </link>
+
+ <!-- Joint EX_ARM2 -->
+  <joint name="EX_ARM2" type="prismatic">
+    <origin xyz="0 0.05 -0.3" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <parent link="EX_ARM1" />
+    <child link="EX_ARM2" />
+    <limit lower="0.0" upper="1.2" effort="30.0" velocity="60.0" />
+  </joint>
+
+  <!-- Link EX_ARM2 -->
+  <link name="EX_ARM2">
+    <visual>
+      <geometry>
+        <cylinder radius="0.065" length="1.3" />
+      </geometry>
+      <material name="EX_DARKGREEN" />
+      <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="5.544" />
+      <inertia ixx="5.683E-01" ixy="0.0" ixz="0.0"
+               iyy="5.683E-01" iyz="0.0"
+               izz="1.864E-02" />
+    </inertial>
+  </link>
+
+<!-- Joint EX_zero -->
+  <joint name="EX_zero" type="fixed">
+    <origin xyz="0.0 0.67 0.0" rpy="0 0 0" />
+    <parent link="EX_ARM2" />
+    <child link="EX_zero" />
+  </joint>
+
+  <!-- Link EX_zero -->
+  <link name="EX_zero">
+    <visual>
+      <geometry>
+        <box size="0.09 0.04 0.09" />
+      </geometry>
+      <material name="EX_DARKGREEN" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="2.550" />
+      <inertia ixx="2.061E-03" ixy="0.0" ixz="0.0"
+               iyy="3.442E-03" iyz="0.0"
+               izz="2.061E-03" />
+    </inertial>
+  </link>
+
+ <!-- Joint EX_A -->
+  <joint name="EX_A" type="revolute">
+    <origin xyz="0 0.04 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <parent link="EX_zero" />
+    <child link="EX_A" />
+    <limit lower="-360.0" upper="360.0" effort="30.0" velocity="2.0" />
+  </joint>
+
+  <!-- Link EX_A -->
+  <link name="EX_A">
+    <visual>
+      <geometry>
+        <box size="0.09 0.04 0.09" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <material name="EX_DARKGREEN" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0.025" rpy="0 0 0" />
+      <mass value="0.8748" />
+      <inertia ixx="7.071E-04" ixy="0.0" ixz="0.0"
+               iyy="1.181E-03" iyz="0.0"
+               izz="7.071E-04" />
+    </inertial>
+  </link>
+
+ <!-- Joint JOINT1 -->
+  <joint name="JOINT1" type="revolute">
+    <origin xyz="0 0.05 0" rpy="0 0 ${M_PI/2}" />
+    <axis xyz="0 0 1" />
+    <parent link="EX_A" />
+    <child link="JOINT1" />
+    <limit lower="2.44346" upper="-2.44346" effort="20.0" velocity="1.50" />
+  </joint>
+
+<!-- Link JOINT1 -->
+  <link name="JOINT1">
+    <visual>
+      <geometry>
+        <cylinder radius="0.045" length="0.085" />
+      </geometry>
+      <material name="EX_WHITE" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="1.460" />
+      <inertia ixx="1.618E-03" ixy="0.0" ixz="0.0"
+               iyy="1.618E-03" iyz="0.0"
+               izz="1.478E-03" />
+    </inertial>
+  </link>
+
+<!-- Joint JOINT2 -->
+  <joint name="JOINT2" type="fixed">
+    <origin xyz="0.05 0 0" rpy="0 ${M_PI/2} 0" />
+    <parent link="JOINT1" />
+    <child link="JOINT2" />
+  </joint>
+
+<!-- Link JOINT2 -->
+  <link name="JOINT2">
+    <visual>
+      <geometry>
+        <cylinder radius="0.045" length="0.1" />
+      </geometry>
+      <material name="EX_WHITE" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="1.718" />
+      <inertia ixx="2.301E-03" ixy="0.0" ixz="0.0"
+               iyy="2.301E-03" iyz="0.0"
+               izz="1.739E-03" />
+    </inertial>
+  </link>
+
+<!-- Joint JOINT3 -->
+  <joint name="JOINT3" type="revolute">
+    <origin xyz="-0.005 0 0.08" rpy="${M_PI/2} ${M_PI/2} ${M_PI/2}" />
+    <axis xyz="0 0 -1" />
+    <parent link="JOINT2" />
+    <child link="JOINT3" />
+    <limit lower="-2.44346" upper="2.44346" effort="20.0" velocity="1.50" />
+  </joint>
+
+<!-- Link JOINT3 -->
+  <link name="JOINT3">
+    <visual>
+      <geometry>
+        <cylinder radius="0.045" length="0.085" />
+      </geometry>
+      <material name="EX_WHITE" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="1.460" />
+      <inertia ixx="1.618E-03" ixy="0.0" ixz="0.0"
+               iyy="1.618E-03" iyz="0.0"
+               izz="1.478E-03" />
+    </inertial>
+  </link>
+
+<!-- Joint JOINT4 -->
+  <joint name="JOINT4" type="fixed">
+    <origin xyz="-0.05 0 0" rpy="0 ${M_PI/2} 0" />
+    <parent link="JOINT3" />
+    <child link="JOINT4" />
+  </joint>
+
+<!-- Link JOINT4 -->
+  <link name="JOINT4">
+    <visual>
+      <geometry>
+        <cylinder radius="0.045" length="0.1" />
+      </geometry>
+      <material name="EX_WHITE" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="1.718" />
+      <inertia ixx="2.301E-03" ixy="0.0" ixz="0.0"
+               iyy="2.301E-03" iyz="0.0"
+               izz="1.739E-03" />
+    </inertial>
+  </link>
+
+<!-- Joint EX_ARM4 -->
+  <joint name="EX_ARM4" type="fixed">
+    <origin xyz="0 -0.2 0" rpy="0 0 ${M_PI}" />
+    <parent link="JOINT4" />
+    <child link="EX_ARM4" />
+  </joint>
+
+  <!-- Link EX_ARM4 -->
+  <link name="EX_ARM4">
+    <visual>
+      <geometry>
+        <cylinder radius="0.055" length="0.3" />
+      </geometry>
+      <material name="EX_BLACK" />
+      <origin xyz="0.0 -0.2 -0.2" rpy="0 0 0" />
+    </visual> 
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="1.026" />
+      <inertia ixx="9.130E-04" ixy="0.0" ixz="0.0"
+               iyy="9.130E-04" iyz="0.0"
+               izz="1.552E-03" />
+    </inertial>
+  </link>
+
+<!-- Joint EX_ARM5 -->
+  <joint name="EX_ARM5" type="prismatic">
+    <origin xyz="0 -0.2 -0.21" rpy="0 0 0" />
+    <axis xyz="0 0 -1" />
+    <parent link="EX_ARM4" />
+    <child link="EX_ARM5" />
+    <limit lower="0.0" upper="0.2" effort="30.0" velocity="300.0" />
+  </joint>
+
+  <!-- Link EX_ARM5 -->
+  <link name="EX_ARM5">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.3" />
+      </geometry>
+      <material name="EX_RED" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.848" />
+      <inertia ixx="6.432E-04" ixy="0.0" ixz="0.0"
+               iyy="6.432E-04" iyz="0.0"
+               izz="1.060E-03" />
+    </inertial>
+  </link>
+
+<!-- Joint EX_ARM6 -->
+  <joint name="EX_ARM6" type="prismatic">
+    <origin xyz="0 0 -0.03" rpy="0 0 0" />
+    <axis xyz="0 0 -1" />
+    <parent link="EX_ARM5" />
+    <child link="EX_ARM6" />
+    <limit lower="0.0" upper="0.26" effort="30.0" velocity="300.0" />
+  </joint>
+
+  <!-- Link EX_ARM6 -->
+  <link name="EX_ARM6">
+    <visual>
+      <geometry>
+        <cylinder radius="0.045" length="0.3" />
+      </geometry>
+      <material name="EX_DARKBLUE" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.687" />
+      <inertia ixx="4.394E-04" ixy="0.0" ixz="0.0"
+               iyy="4.394E-04" iyz="0.0"
+               izz="6.957E-04" />
+    </inertial>
+  </link>
+
+<!-- Joint ROTATION -->
+  <joint name="ROTATION" type="revolute">
+    <origin xyz="0 0 -0.16" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+    <parent link="EX_ARM6" />
+    <child link="ROTATION" />
+    <limit lower="-360.0" upper="360.0" effort="30.0" velocity="2.0" />
+  </joint>
+
+  <!-- Link ROTATION -->
+  <link name="ROTATION">
+    <visual>
+      <geometry>
+        <cylinder radius="0.08" length="0.04" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <material name="EX_BLACK" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="1.221" />
+      <inertia ixx="1.262E-03" ixy="0.0" ixz="0.0"
+               iyy="1.262E-03" iyz="0.0"
+               izz="2.199E-03" />
+    </inertial>
+  </link>
+
+<!-- Joint EXTRACT -->
+  <joint name="EXTRACT" type="fixed">
+    <origin xyz="0 0.16 0" rpy="0 0 0" />
+    <parent link="ROTATION" />
+    <child link="EXTRACT" />
+  </joint>
+
+<!-- Link EXTRACT -->
+  <link name="EXTRACT">
+    <visual>
+      <geometry>
+        <mesh filename="package://enryu_description/meshes/extract.stl"/>
+      </geometry>
+      <material name="EX_GRAY" />
+      <origin xyz="0 -0.16 0" rpy="${-M_PI/2} 0 0" />
+    </visual>
+
+    <collision>
+      <origin rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://enryu_description/meshes/extract.stl"/>
+      </geometry>      
+    </collision>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="4.517" />
+      <inertia ixx="0.037601" ixy="0.0" ixz="0.0"
+               iyy="0.037601" iyz="0.0"
+               izz="0.03032" />
+    </inertial>
+  </link>
+
+<!-- Joint EXT1 -->
+  <joint name="EXT1" type="fixed">
+    <origin xyz="0.3442 0.05 -0.2" rpy="0 ${M_PI/2} 0" />
+    <parent link="EXTRACT" />
+    <child link="EXT1" />
+  </joint>
+
+  <!-- Link EXT1 -->
+  <link name="EXT1">
+    <visual>
+      <geometry>
+        <cylinder radius="0.055" length="0.075" />
+      </geometry>
+      <material name="EX_BLACK" />
+      <origin xyz="0.0 -0.2 -0.2275" rpy="0 0 0" />
+    </visual> 
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.2068" />
+      <inertia ixx="2.068E-04" ixy="0.0" ixz="0.0"
+               iyy="2.068E-04" iyz="0.0"
+               izz="2.197E-04" />
+    </inertial>
+  </link>
+
+<!-- Joint SMALLEXT1 -->
+  <joint name="SMALLEXT1" type="prismatic">
+    <origin xyz="0 -0.20 -0.2275" rpy="0 0 0" />
+    <axis xyz="0 0 -1" />
+    <parent link="EXT1" />
+    <child link="SMALLEXT1" />
+    <limit lower="0.0" upper="0.075" effort="30.0" velocity="300.0" />
+  </joint>
+
+  <!-- Link SMALLEXT1" -->
+  <link name="SMALLEXT1">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.075" />
+      </geometry>
+      <material name="EX_RED" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.9331" />
+      <inertia ixx="6.473E-04" ixy="0.0" ixz="0.0"
+               iyy="6.473E-04" iyz="0.0"
+               izz="4.199E-04" />
+    </inertial>
+  </link>
+
+<!-- Joint EXT2 -->
+  <joint name="EXT2" type="fixed">
+    <origin xyz="0.1383 0.05 -0.2" rpy="0 ${M_PI/2} 0" />
+    <parent link="EXTRACT" />
+    <child link="EXT2" />
+  </joint>
+
+  <!-- Link EXT2 -->
+  <link name="EXT2">
+    <visual>
+      <geometry>
+        <cylinder radius="0.055" length="0.075" />
+      </geometry>
+      <material name="EX_BLACK" />
+      <origin xyz="0.0 -0.2 -0.25" rpy="0 0 4.7123" />
+    </visual> 
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.2068" />
+      <inertia ixx="2.068E-04" ixy="0.0" ixz="0.0"
+               iyy="2.068E-04" iyz="0.0"
+               izz="2.197E-04" />
+    </inertial>
+  </link>
+
+<!-- Joint SMALLEXT2 -->
+  <joint name="SMALLEXT2" type="prismatic">
+    <origin xyz="0 -0.20 -0.25" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+    <parent link="EXT2" />
+    <child link="SMALLEXT2" />
+    <limit lower="0.0" upper="0.075" effort="30.0" velocity="300.0" />
+  </joint>
+
+  <!-- Link SMALLEXT2" -->
+  <link name="SMALLEXT2">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.075" />
+      </geometry>
+      <material name="EX_RED" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.9331" />
+      <inertia ixx="6.473E-04" ixy="0.0" ixz="0.0"
+               iyy="6.473E-04" iyz="0.0"
+               izz="4.199E-04" />
+    </inertial>
+  </link>
+
+<!-- Joint EXT3 -->
+  <joint name="EXT3" type="fixed">
+    <origin xyz="-0.20 0.18 -0.2" rpy="0 ${M_PI/2} ${M_PI/2}" />
+    <parent link="EXTRACT" />
+    <child link="EXT3" />
+  </joint>
+
+  <!-- Link EXT3 -->
+  <link name="EXT3">
+    <visual>
+      <geometry>
+        <cylinder radius="0.055" length="0.075" />
+      </geometry>
+      <material name="EX_RED" />
+      <origin xyz="0.0 -0.2 -0.2275" rpy="0 0 0" />
+    </visual> 
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.2068" />
+      <inertia ixx="2.068E-04" ixy="0.0" ixz="0.0"
+               iyy="2.068E-04" iyz="0.0"
+               izz="2.197E-04" />
+    </inertial>
+  </link>
+
+<!-- Joint SMALLEXT3 -->
+  <joint name="SMALLEXT3" type="prismatic">
+    <origin xyz="0 -0.20 -0.2275" rpy="0 0 0" />
+    <axis xyz="0 0 -1" />
+    <parent link="EXT3" />
+    <child link="SMALLEXT3" />
+    <limit lower="0.0" upper="0.075" effort="30.0" velocity="300.0" />
+  </joint>
+
+  <!-- Link SMALLEXT3" -->
+  <link name="SMALLEXT3">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.075" />
+      </geometry>
+      <material name="EX_RED" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.9331" />
+      <inertia ixx="6.473E-04" ixy="0.0" ixz="0.0"
+               iyy="6.473E-04" iyz="0.0"
+               izz="4.199E-04" />
+    </inertial>
+  </link>
+
+<!-- Joint EXT4 -->
+  <joint name="EXT4" type="fixed">
+    <origin xyz="-0.20 -0.03 -0.2" rpy="0 ${M_PI/2} ${M_PI/2}" />
+    <parent link="EXTRACT" />
+    <child link="EXT4" />
+  </joint>
+
+  <!-- Link EXT4 -->
+  <link name="EXT4">
+    <visual>
+      <geometry>
+        <cylinder radius="0.055" length="0.075" />
+      </geometry>
+      <material name="EX_RED" />
+      <origin xyz="0.0 -0.2 -0.2275" rpy="0 0 0" />
+    </visual> 
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.2068" />
+      <inertia ixx="2.068E-04" ixy="0.0" ixz="0.0"
+               iyy="2.068E-04" iyz="0.0"
+               izz="2.197E-04" />
+    </inertial>
+  </link>
+
+<!-- Joint SMALLEXT4 -->
+  <joint name="SMALLEXT4" type="prismatic">
+    <origin xyz="0 -0.20 -0.2275" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+    <parent link="EXT4" />
+    <child link="SMALLEXT4" />
+    <limit lower="0.0" upper="0.075" effort="30.0" velocity="300.0" />
+  </joint>
+
+  <!-- Link SMALLEXT4" -->
+  <link name="SMALLEXT4">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.075" />
+      </geometry>
+      <material name="EX_RED" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.9331" />
+      <inertia ixx="6.473E-04" ixy="0.0" ixz="0.0"
+               iyy="6.473E-04" iyz="0.0"
+               izz="4.199E-04" />
+    </inertial>
+  </link>
+</robot>

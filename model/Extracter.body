@@ -1,0 +1,566 @@
+format: ChoreonoidBody
+formatVersion: 1.0
+angleUnit: degree
+name: Extracter
+
+links:
+ - #Extracter
+  name: EX_ARM1
+  translation: [ 0, 0, 0.5 ]
+  rotation: [ 1, 0, 0, 90]
+  jointType: fixed
+  centerOfMass: [ 0, 0, 0 ]
+  mass: 10.97
+  inertia: [
+    0.85, 0, 0,
+    0, 0.85, 0,
+    0, 0, 0.062216 ]
+  elements:
+    -
+      type: Shape
+      translation: [ 0.0, 0.15, -0.3 ]
+      geometry: { type: Cylinder, radius: 0.08, height: 1.5 }
+      appearance:
+        material: { diffuseColor: [ 0.2, 0.2, 0.2 ] }
+    -
+      type: Shape
+      translation: [ -0.0, 0.8, -0.16 ]
+      geometry: { type: Box, size: [0.05, 0.05, 0.28] }
+      appearance:
+        material: { diffuseColor: [ 0.2, 0.2, 0.2 ] }
+    -
+      type: Shape
+      translation: [ 0.0, 0.6, -0.16 ]
+      geometry: { type: Box, size: [0.05, 0.05, 0.28] }
+      appearance:
+        material: { diffuseColor: [ 0.2, 0.2, 0.2 ] }
+    -
+      type: Camera
+      name: Ex_left_Camera
+      translation: [0, 1.0, -0.7]
+     #translation: [ -0.2, 0.15, 0.0 ]
+      rotation: [[ 1, 0, 0, 90 ], [ 0, 0, 1, 90 ]]
+      format: COLOR
+      width: 640
+      height: 480
+      fieldOfView: 85.97
+     #fieldOfView: 115.97
+      farClipDistance: 5
+      on: true
+
+ -
+  name: EX_ARM2
+  parent: EX_ARM1
+  translation: [ 0, 0.05, -0.3 ]
+  jointType: prismatic
+  jointAxis: -Z
+  jointId: 0
+  centerOfMass: [ 0, 0, 0 ]
+  jointRange: [0.0, 1.2]
+  mass: 5.544
+  jointMotorForceRange: [ -10000.0, 10000.0 ]
+  jointLockForceRange:  [ -10000.0, 10000.0 ]
+  inertia: [
+    5.683E-01, 0, 0,
+    0, 5.683E-01, 0,
+    0, 0, 1.864E-02 ]
+  elements:
+    -
+      type: Shape
+      geometry: { type: Cylinder, radius: 0.065, height: 1.3 }
+      appearance:
+        material: { diffuseColor: [ 0.0, 0.4, 0 ] }
+ -
+   name: EX_zero
+   parent: EX_ARM2
+   translation: [ 0, 0.67, 0 ]
+   jointType: fixed
+   centerOfMass: [ 0, 0, 0 ]
+   mass: 2.550
+   inertia: [
+     2.061E-03, 0,   0,
+     0,   3.442E-03, 0,
+     0,   0,   2.061E-03 ]
+   elements:
+     Shape:
+       geometry:
+         type: Box
+         size: [ 0.09, 0.04, 0.09 ]
+       appearance: &BodyAppearance
+         material:
+           diffuseColor: [ 0, 0.6, 0 ]
+           specularColor: [ 0.02, 0.02, 0.01 ]
+           shininess: 0.6
+ -
+   name: EX_A
+   parent: EX_zero
+   translation: [0 ,0.04, 0]
+   jointType: revolute
+   jointAxis: Y
+   jointRange: unlimited
+   maxJointVelocity: 90
+   jointId: 1
+   centerOfMass: [0,0,0.025]
+   mass: 0.8748
+   intertia: [
+       7.071E-04,   0,    0,
+       0,   1.181E-03,    0,
+       0,     0,  7.071E-04 ]
+   elements:
+     Shape:
+       geometry:
+         type: Box
+         size: [0.09, 0.04, 0.09]
+       appearance: *BodyAppearance
+
+ -
+   name: JOINT1
+   parent: EX_A
+   translation: [ 0, 0.05, 0 ]
+   rotation: [[0,0,1,90],[1,0,0,90]]
+   jointRange: [ -63.7, 63.7 ]
+   jointType: revolute
+   jointAxis: Y
+   jointId: 2
+   centerOfMass: [ 0, 0, 0 ]
+   mass: 1.460
+   jointMotorForceRange: [ -10000.0, 10000.0 ]
+   jointLockForceRange:  [ -10000.0, 10000.0 ]
+   inertia: [
+     1.618E-03, 0, 0,
+     0, 1.618E-03, 0,
+     0, 0, 1.478E-03 ]
+   elements:
+     -
+       type: Shape
+       geometry: { type: Cylinder, radius: 0.045, height: 0.085 }
+ -
+   name: JOINT2
+   parent: JOINT1
+   translation: [ 0.05, 0, 0.25 ]
+   rotation: [0,0,1,90]
+   jointType: fixed
+   centerOfMass: [ 0, 0, 0 ]
+   mass: 1.718
+   inertia: [
+     2.301E-03, 0, 0,
+     0, 2.301E-03, 0,
+     0, 0, 1.739E-03 ]
+   elements:
+     -
+       type: Shape
+       translation: [ 0.0, 0.0, -0.25 ]
+       geometry: { type: Cylinder, radius: 0.045, height: 0.1 }
+
+ -
+   name: JOINT3
+   parent: JOINT2
+   translation: [ 0, -0.08, -0.25 ]
+   rotation: [0.0,0,1,270]
+   jointRange: [ -140, 140 ]
+   jointType: revolute
+   jointAxis: Y
+   jointId: 3
+   centerOfMass: [ 0, 0, 0 ]
+   mass: 1.460
+   jointMotorForceRange: [ -10000.0, 10000.0 ]
+   jointLockForceRange:  [ -10000.0, 10000.0 ]
+   inertia: [
+     1.618E-03, 0, 0,
+     0, 1.618E-03, 0,
+     0, 0, 1.478E-03 ]
+   elements:
+     -
+       type: Shape
+       geometry: { type: Cylinder, radius: 0.045, height: 0.085 }
+ -
+   name: JOINT4
+   parent: JOINT3
+   translation: [ 0.05, 0, 0.25 ]
+   rotation: [0,0,1,90]
+   jointType: fixed
+   centerOfMass: [ 0, 0, 0 ]
+   mass: 1.718
+   inertia: [
+     2.301E-03, 0, 0,
+     0, 2.301E-03, 0,
+     0, 0, 1.739E-03 ]
+   elements:
+     -
+       type: Shape
+       translation: [ 0.0, 0.0, -0.25 ]
+       geometry: { type: Cylinder, radius: 0.045, height: 0.1 }
+
+ -
+   name: EX_ARM4
+   parent: JOINT4
+   translation: [ 0, -0.2, 0 ]
+   rotation: [0.0,0,1,180]
+   jointType: fixed
+   centerOfMass: [ 0, 0, 0 ]
+   mass: 1.026
+   inertia: [
+     9.130E-04, 0, 0,
+     0, 9.130E-04, 0,
+     0, 0, 1.552E-03 ]
+   elements:
+     -
+       type: Shape
+       translation: [ 0.0, 0.0, -0.25 ]
+       geometry: { type: Cylinder, radius: 0.055, height: 0.3 }
+       appearance:
+         material: { diffuseColor: [ 0.2, 0.2, 0.2 ] }
+
+ -
+   name: EX_ARM5
+   parent: EX_ARM4
+   translation: [ 0, 0.01, -0.25 ]
+   jointType: prismatic
+   jointAxis: -Z
+   jointId: 4
+   centerOfMass: [ 0, 0, 0 ]
+   jointRange: [0.0, 0.2]
+   mass: 0.848
+   jointMotorForceRange: [ -10000.0, 10000.0 ]
+   jointLockForceRange:  [ -10000.0, 10000.0 ]
+   inertia: [
+     6.432E-04, 0, 0,
+     0, 6.432E-04, 0,
+     0, 0, 1.060E-03 ]
+   elements:
+     -
+       type: Shape
+       geometry: { type: Cylinder, radius: 0.05, height: 0.3 }
+       appearance:
+         material: { diffuseColor: [ 0.4, 0, 0 ] }
+
+ -
+   name: EX_ARM6
+   parent: EX_ARM5
+   translation: [ 0, 0.03, 0 ]
+   jointType: prismatic
+   jointAxis: -Z
+   jointId: 5
+   centerOfMass: [ 0, 0, 0 ]
+   jointRange: [0.0, 0.26]
+   mass: 0.687
+   jointMotorForceRange: [ -10000.0, 10000.0 ]
+   jointLockForceRange:  [ -10000.0, 10000.0 ]
+   inertia: [
+     4.394E-04, 0, 0,
+     0, 4.394E-04, 0,
+     0, 0, 6.957E-04 ]
+   elements:
+     -
+       type: Shape
+       geometry: { type: Cylinder, radius: 0.045, height: 0.3 }
+       appearance:
+         material: { diffuseColor: [ 0.0, 0.0, 0.4 ] }
+
+ -
+   name: ROTATION
+   parent: EX_ARM6
+   translation: [ 0, 0.16, 0 ]
+   jointType: revolute
+   jointAxis: Y
+   jointId: 6
+   centerOfMass: [ 0, 0, 0 ]
+   mass: 1.221
+   inertia: [
+      1.262E-03, 0,   0,
+      0,   1.262E-03, 0,
+      0,   0,   2.199E-03 ]
+   elements:
+    Shape:
+     geometry:
+      type: Cylinder
+      height: 0.04
+      radius: 0.08
+     appearance: &Black
+      material:
+       diffuseColor: [ 0, 0, 0 ]
+       specularColor: [ 0, 0, 0 ]
+       shininess: 0.6
+
+
+ -
+  name: EXTRACT
+  parent: ROTATION
+  translation: [ 0, 0, 0 ]
+  jointType: fixed
+  centerOfMass: [ 0, 0, 0 ]
+  mass: 4.517
+  inertia: [
+     0.037601, 0,   0,
+     0,   0.037601, 0,
+     0,   0,   0.03032 ]
+  elements:
+#   -
+#     type: Resource
+#     uri: "Extracter/Extract.dae"
+   -
+    type: Visual
+    elements:
+      Resource:
+        uri: "Extracter/Extract.dae"
+   -
+     type: Collision
+     translation: [ 0.015, 0.15, 0.109 ]
+     rotation: [ 1, 0, 0, 90 ]
+     elements:
+       -
+         type: Transform
+         elements: &EXTRACT_QUATER
+           -
+             type: Transform
+             rotation: [ 0, 0, 1, -7.5 ]
+             elements: &EXTRACT_BOX
+               Shape:
+                 geometry: { type: Box, size: [ 0.033, 0.0275, 0.3 ] }
+           -
+             type: Transform
+             translation: [ 0.0275, -0.0073, 0 ]
+             rotation: [ 0, 0, 1, -22.5 ]
+             elements: *EXTRACT_BOX
+           -
+             type: Transform
+             translation: [ 0.0528, -0.0218, 0 ]
+             rotation: [ 0, 0, 1, -37.5 ]
+             elements: *EXTRACT_BOX
+           -
+             type: Transform
+             translation: [ 0.0735, -0.042, 0 ]
+             rotation: [ 0, 0, 1, -52.5 ]
+             elements: *EXTRACT_BOX
+           -
+             type: Transform
+             translation: [ 0.088, -0.067, 0 ]
+             rotation: [ 0, 0, 1, -67.5 ]
+             elements: *EXTRACT_BOX
+           -
+             type: Transform
+             translation: [ 0.0955, -0.095, 0 ]
+             rotation: [ 0, 0, 1, -82.5 ]
+             elements: *EXTRACT_BOX
+       -
+         type: Transform
+         translation: [ 0.097, -0.125, 0.0 ]
+         rotation: [ 0, 0, 1, -89 ]
+         elements: *EXTRACT_QUATER
+       -
+         type: Transform
+         translation: [ -0.127, -0.0955, 0.0 ]
+         rotation: [ 0, 0, 1, 89.5 ]
+         elements: *EXTRACT_QUATER
+       -
+         type: Transform
+         translation: [ -0.03, -0.223, 0.0 ]
+         rotation: [ 0, 0, 1, 181 ]
+         elements: *EXTRACT_QUATER
+       -
+         type: Shape
+         translation: [ 0 , -0.12 , 0.125 ]
+         rotation: [ 1, 0, 0, 90]
+         geometry:
+           type: Cylinder
+           radius: 0.125
+           height: 0.05
+   -
+     type: Camera
+     name: EX_Camera
+     translation: [ 0, 0.055, 0.005 ]
+     rotation: [[1, 0, 0, 90], [0, 0, 1, 180]]
+     format: COLOR_DEPTH
+     #format: COLOR
+     fieldOfView: 26
+     width: 400
+     height: 300
+     frameRate: 27
+     elements:
+       Shape:
+         translation: [ 0, 0.005, 0 ]
+         rotation: [ 1, 0, 0, 90 ]
+         geometry:
+           type: Cylinder
+           radius: 0.005
+           height: 0.01
+         appearance:
+           material:
+             diffuseColor: [ 0.2, 0.2, 0.8 ]
+             specularColor: [ 0.6, 0.6, 1.0 ]
+             shininesss: 0.6
+
+ -
+   name: EXT1
+   parent: EXTRACT
+   translation: [ 0.145, 0.2, 0.25 ]
+   rotation: [0.0,0,1,90]
+   jointType: fixed
+   centerOfMass: [ 0, 0, 0 ]
+   mass: 0.2068
+   inertia: [
+     2.068E-04, 0, 0,
+     0, 2.068E-04, 0,
+     0, 0, 2.197E-04 ]
+   elements:
+     -
+       type: Shape
+       translation: [ 0.0, 0.0, -0.26 ]
+       geometry: { type: Cylinder, radius: 0.055, height: 0.1 }
+       appearance:
+         material: { diffuseColor: [ 0.2, 0.2, 0.2 ] }
+
+ -
+   name: SMALLEXT1
+   parent: EXT1
+   translation: [ 0, 0, -0.26 ]
+   jointType: prismatic
+   jointAxis: -Y
+   jointId: 7
+   centerOfMass: [ 0, 0, 0 ]
+   jointRange: [0.0, 0.095]
+   mass: 0.9331
+   jointMotorForceRange: [ -10000.0, 10000.0 ]
+   jointLockForceRange:  [ -10000.0, 10000.0 ]
+   material: Hand #アームでつかむような摩擦係数とかにしてある
+   inertia: [
+     6.473E-04, 0, 0,
+     0, 6.473E-04, 0,
+     0, 0, 4.199E-04 ]
+   elements:
+     -
+       type: Shape
+       geometry: { type: Cylinder, radius: 0.05, height: 0.1 }
+       appearance:
+         material: { diffuseColor: [ 0.2, 0.2, 0.2 ] }
+ -
+   name: EXT2
+   parent: EXTRACT
+   translation: [ -0.145, 0.2, 0.25 ]
+   rotation: [0,0,1,270]
+   jointType: fixed
+   centerOfMass: [ 0, 0, 0 ]
+   mass: 0.2068
+   inertia: [
+     2.068E-04, 0, 0,
+     0, 2.068E-04, 0,
+     0, 0, 2.197E-04 ]
+   elements:
+     -
+       type: Shape
+       translation: [ 0.0, 0.0, -0.25 ]
+       geometry: { type: Cylinder, radius: 0.055, height: 0.1 }
+       appearance:
+         material: { diffuseColor: [ 0.2, 0.2, 0.2 ] }
+ -
+   name: SMALLEXT2
+   parent: EXT2
+   translation: [ 0, 0, -0.26 ]
+   jointType: prismatic
+   jointAxis: Y
+   jointId: 8
+   centerOfMass: [ 0, 0, 0 ]
+   jointRange: [0.0, 0.095]
+   mass: 0.9331
+   jointMotorForceRange: [ -10000.0, 10000.0 ]
+   jointLockForceRange:  [ -10000.0, 10000.0 ]
+   material: Hand
+   inertia: [
+     6.473E-04, 0, 0,
+     0, 6.473E-04, 0,
+     0, 0, 4.199E-04 ]
+   elements:
+     -
+       type: Shape
+       geometry: { type: Cylinder, radius: 0.05, height: 0.1 }
+       appearance:
+         material: { diffuseColor: [ 0.2, 0.2, 0.2 ] }
+ -
+   name: EXT3
+   parent: EXTRACT
+   translation: [ 0, 0.45, 0.143 ]
+   rotation: [ 1, 0, 0, 270]
+   jointType: fixed
+   centerOfMass: [ 0, 0, 0 ]
+   mass: 0.2068
+   inertia: [
+     2.068E-04, 0, 0,
+     0, 2.068E-04, 0,
+     0, 0, 2.197E-04 ]
+   elements:
+     -
+       type: Shape
+       translation: [ 0.0, 0.0, -0.25 ]
+       geometry: { type: Cylinder, radius: 0.055, height: 0.1 }
+       appearance:
+        texture:
+         url: "Extracter/texture/red.png"
+ -
+   name: SMALLEXT3
+   parent: EXT3
+   translation: [ 0, 0, -0.26 ]
+   jointType: prismatic
+   jointAxis: X
+   jointId: 9
+   centerOfMass: [ 0, 0, 0 ]
+   jointRange: [0.0, 0.095]
+   mass: 0.9331
+   jointMotorForceRange: [ -10000.0, 10000.0 ]
+   jointLockForceRange:  [ -10000.0, 10000.0 ]
+   material: Hand
+   inertia: [
+     6.473E-04, 0, 0,
+     0, 6.473E-04, 0,
+     0, 0, 4.199E-04 ]
+   elements:
+     -
+       type: Shape
+       geometry: { type: Cylinder, radius: 0.05, height: 0.1 }
+       appearance:
+        texture:
+         url: "Extracter/texture/red.png"
+ -
+   name: EXT4
+   parent: EXTRACT
+   translation: [ 0, -0.05, -0.148 ]
+   rotation: [ 1, 0, 0, 90]
+   jointType: fixed
+   centerOfMass: [ 0, 0, 0 ]
+   mass: 0.2068
+   inertia: [
+     2.068E-04, 0, 0,
+     0, 2.068E-04, 0,
+     0, 0, 2.197E-04 ]
+   elements:
+     -
+       type: Shape
+       translation: [ 0.0, 0.0, -0.25 ]
+       geometry: { type: Cylinder, radius: 0.055, height: 0.1 }
+       appearance:
+        texture:
+         url: "Extracter/texture/red.png"
+
+ -
+   name: SMALLEXT4
+   parent: EXT4
+   translation: [ 0, 0, -0.26 ]
+   jointType: prismatic
+   jointAxis: -X
+   jointId: 10
+   centerOfMass: [ 0, 0, 0 ]
+   jointRange: [0.0, 0.095]
+   mass: 0.9331
+   jointMotorForceRange: [ -10000.0, 10000.0 ]
+   jointLockForceRange:  [ -10000.0, 10000.0 ]
+   material: Hand
+   inertia: [
+     6.473E-04, 0, 0,
+     0, 6.473E-04, 0,
+     0, 0, 4.199E-04 ]
+   elements:
+     -
+       type: Shape
+       geometry: { type: Cylinder, radius: 0.05, height: 0.1 }
+       appearance:
+        texture:
+         url: "Extracter/texture/red.png"
